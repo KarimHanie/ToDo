@@ -1,21 +1,30 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/apptheme.dart';
+import 'package:to_do_app/firebase_functions/firebase_functions.dart';
 import 'package:to_do_app/models/task_models.dart';
 import 'package:to_do_app/tabs/tasks/task_items.dart';
 
-class TasksTabs extends StatelessWidget {
+class TasksTabs extends StatefulWidget {
   static const String routName = '/tasks';
-  List<TaskModel> tasks = List.generate(
-      10,
-      (index) => TaskModel(
-          title: 'title $index',
-          description: 'description $index',
-          date: DateTime.now()));
+
+  @override
+  State<TasksTabs> createState() => _TasksTabsState();
+}
+
+class _TasksTabsState extends State<TasksTabs> {
+  List<TaskModel> tasks =[];
 
   @override
   Widget build(BuildContext context) {
+    if(tasks.isEmpty){
+      getTasks();
+    }
     double screenHeight = MediaQuery.sizeOf(context).height;
     // TODO: implement build
     return Column(
@@ -87,5 +96,10 @@ class TasksTabs extends StatelessWidget {
         )),
       ],
     );
+  }
+  Future<void> getTasks() async{
+   tasks = await FirebaseFunctions.getAllTasks();
+   setState(() {});
+
   }
 }

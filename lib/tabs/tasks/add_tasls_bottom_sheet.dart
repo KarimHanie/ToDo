@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/firebase_functions/firebase_functions.dart';
 import 'package:to_do_app/widgets/custom_elevated_button.dart';
 import 'package:to_do_app/widgets/default_text_from_field/custom_text_form_field.dart';
 
@@ -94,5 +96,9 @@ class _AddTaskState extends State<AddTask> {
       description: descriptionController.text,
       date: selectedDate,
     );
+    FirebaseFunctions.addTaskToFireBase(task)
+        .timeout(Duration(microseconds: 100),
+            onTimeout: () => {Navigator.of(context).pop()})
+        .catchError((error) {});
   }
 }
