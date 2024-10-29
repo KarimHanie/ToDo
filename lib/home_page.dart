@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int index = 0;
-  List<Widget> tabs = [TasksTabs(), Settings()];
+  List<Widget> tabs = [TasksTabs(), SettingTab()];
 
   @override
   Widget build(BuildContext context) {
