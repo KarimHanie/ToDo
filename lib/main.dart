@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:to_do_app/tabs/tasks/tasks_tabs.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseFirestore.instance.disableNetwork();
   runApp(ToDoApp());
 }
 class ToDoApp extends StatelessWidget{
@@ -20,7 +22,7 @@ class ToDoApp extends StatelessWidget{
       initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName:(_)=>HomePage(),
-        Settings.routName:(_)=>Settings(),
+        SettingTab.routName:(_)=>SettingTab(),
         TasksTabs.routName:(_)=>TasksTabs(),
       },
       theme: AppTheme.lightTheme,

@@ -30,6 +30,9 @@ class AppTheme {
         backgroundColor: primary,
         foregroundColor: white,
         shape: CircleBorder(side: BorderSide(width: 4, color: white))),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(backgroundColor: primary)
+    ),
   );
 
   static ThemeData darkTheme = ThemeData();

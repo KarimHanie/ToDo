@@ -2,10 +2,17 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/apptheme.dart';
+import 'package:to_do_app/models/task_models.dart';
 import 'package:to_do_app/tabs/tasks/task_items.dart';
 
 class TasksTabs extends StatelessWidget {
   static const String routName = '/tasks';
+  List<TaskModel> tasks = List.generate(
+      10,
+      (index) => TaskModel(
+          title: 'title $index',
+          description: 'description $index',
+          date: DateTime.now()));
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +39,7 @@ class TasksTabs extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.only(top:screenHeight*0.1),
+              padding: EdgeInsets.only(top: screenHeight * 0.1),
               child: EasyInfiniteDateTimeLine(
                 showTimelineHeader: false,
                 firstDate: DateTime.now().subtract(Duration(days: 365)),
@@ -73,7 +80,11 @@ class TasksTabs extends StatelessWidget {
             ),
           ],
         ),
-        Expanded(child: ListView.builder(itemBuilder: (_,index)=>TasksItems(),itemCount: 10,)),
+        Expanded(
+            child: ListView.builder(
+          itemBuilder: (_, index) => TasksItems(tasks[index]),
+          itemCount: tasks.length,
+        )),
       ],
     );
   }

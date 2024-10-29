@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int index = 0;
-  List<Widget> tabs = [TasksTabs(), Settings()];
+  List<Widget> tabs = [TasksTabs(), SettingTab()];
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +25,25 @@ class _HomePageState extends State<HomePage> {
           notchMargin: 10,
           shape: CircularNotchedRectangle(),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          padding:EdgeInsets.zero,
-        
+          padding: EdgeInsets.zero,
           child: BottomNavigationBar(
               currentIndex: index,
               onTap: (value) => setState(() => index = value),
               elevation: 0,
               items: [
-                BottomNavigationBarItem(label: 'taskslist', icon: Icon(Icons.list,size: 32)),
                 BottomNavigationBarItem(
-                    label: 'settings', icon: Icon(Icons.settings,size: 32)),
+                    label: 'taskslist', icon: Icon(Icons.list, size: 32)),
+                BottomNavigationBarItem(
+                    label: 'settings', icon: Icon(Icons.settings, size: 32)),
               ]),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>showModalBottomSheet(context: context, builder: (BuildContext context) =>AddTask()),
+        onPressed: () => showModalBottomSheet(
+          // isScrollControlled: true,
+          context: context,
+          builder: (BuildContext context) => AddTask(),
+        ),
         child: Icon(
           Icons.add,
           size: 32,

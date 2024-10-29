@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class Settings extends StatelessWidget{
+class SettingTab extends StatelessWidget{
   static const String routName='/settings';
   @override
   Widget build(BuildContext context) {
