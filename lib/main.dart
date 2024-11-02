@@ -2,16 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_app/apptheme.dart';
 import 'package:to_do_app/home_page.dart';
 import 'package:to_do_app/tabs/settings_tab.dart';
+import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:to_do_app/tabs/tasks/tasks_tabs.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseFirestore.instance.disableNetwork();
-  runApp(ToDoApp());
+  runApp(ChangeNotifierProvider(
+      create: (_)=>TaskProvider(),
+
+      child: ToDoApp()));
 }
 class ToDoApp extends StatelessWidget{
   @override

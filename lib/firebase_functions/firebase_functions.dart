@@ -22,6 +22,12 @@ class FirebaseFunctions {
         await taskCollection.get();
     return queryDocumentSnapshot.docs.map((queryDocumentSnapshot) => queryDocumentSnapshot.data()!).toList();
   }
+  static Future<void> deleteTasks(String taskId)async{
+    CollectionReference<TaskModel> taskCollection = getTasksCollection();
+     return taskCollection.doc(taskId).delete();
+
+
+  }
 }
 // crud principles
 /*

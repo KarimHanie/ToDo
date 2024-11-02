@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/apptheme.dart';
 import 'package:to_do_app/firebase_functions/firebase_functions.dart';
+import 'package:to_do_app/tabs/tasks/tasks_provider.dart';
 import 'package:to_do_app/widgets/custom_elevated_button.dart';
 import 'package:to_do_app/widgets/default_text_from_field/custom_text_form_field.dart';
 
@@ -22,11 +26,21 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? titleMeduimStyle = Theme.of(context).textTheme.titleMedium;
+    TextStyle? titleMeduimStyle = Theme
+        .of(context)
+        .textTheme
+        .titleMedium;
     // TODO: implement build
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.only(bottom: MediaQuery
+          .of(context)
+          .viewInsets
+          .bottom),
       child: Container(
+        padding: EdgeInsets.all(20),
+        height: MediaQuery
+            .sizeOf(context)
+            .height * 0.5,
         child: Form(
           key: formKey,
           child: Column(
@@ -39,7 +53,9 @@ class _AddTaskState extends State<AddTask> {
                 controller: titleController,
                 hintText: 'Enter Task title',
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
+                  if (value == null || value
+                      .trim()
+                      .isEmpty) {
                     return 'title cannont be empty';
                   }
                   return null;
@@ -51,7 +67,9 @@ class _AddTaskState extends State<AddTask> {
                 hintText: 'Enter description',
                 validator: (value) {
                   value?.trim();
-                  if (value == null || value.trim().isEmpty) {
+                  if (value == null || value
+                      .trim()
+                      .isEmpty) {
                     return 'description cannot tbe empty';
                   }
                   return null;
@@ -60,7 +78,7 @@ class _AddTaskState extends State<AddTask> {
               SizedBox(height: 16),
               Text('select Date',
                   style:
-                      titleMeduimStyle?.copyWith(fontWeight: FontWeight.w400)),
+                  titleMeduimStyle?.copyWith(fontWeight: FontWeight.w400)),
               SizedBox(height: 9),
               InkWell(
                   onTap: () async {
@@ -98,7 +116,30 @@ class _AddTaskState extends State<AddTask> {
     );
     FirebaseFunctions.addTaskToFireBase(task)
         .timeout(Duration(microseconds: 100),
-            onTimeout: () => {Navigator.of(context).pop()})
-        .catchError((error) {});
+        onTimeout: ()
+        {
+          Navigator.of(context).pop();
+          Provider.of<TaskProvider>(context, listen: false).getTasks();
+          Fluttertoast.showToast(
+              msg: "TASK ADDED SUCCESSFULLY",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 5,
+              backgroundColor: AppTheme.green,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        })
+        .catchError((error) {
+      Fluttertoast.showToast(
+          msg: "ERROR HAPPENED",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 5,
+          backgroundColor: AppTheme.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    });
   }
 }

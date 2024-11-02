@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
-          // isScrollControlled: true,
+          isScrollControlled: true,
           context: context,
           builder: (BuildContext context) => AddTask(),
         ),
