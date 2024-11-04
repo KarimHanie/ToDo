@@ -26,21 +26,14 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? titleMeduimStyle = Theme
-        .of(context)
-        .textTheme
-        .titleMedium;
+    TextStyle? titleMeduimStyle = Theme.of(context).textTheme.titleMedium;
     // TODO: implement build
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery
-          .of(context)
-          .viewInsets
-          .bottom),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         padding: EdgeInsets.all(20),
-        height: MediaQuery
-            .sizeOf(context)
-            .height * 0.5,
+        height: MediaQuery.sizeOf(context).height * 0.5,
         child: Form(
           key: formKey,
           child: Column(
@@ -50,12 +43,11 @@ class _AddTaskState extends State<AddTask> {
                 style: titleMeduimStyle,
               ),
               CustomTextFormField(
+                isPassword: false,
                 controller: titleController,
                 hintText: 'Enter Task title',
                 validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
+                  if (value == null || value.trim().isEmpty) {
                     return 'title cannont be empty';
                   }
                   return null;
@@ -63,13 +55,12 @@ class _AddTaskState extends State<AddTask> {
               ),
               SizedBox(height: 16),
               CustomTextFormField(
+                isPassword: false,
                 controller: descriptionController,
                 hintText: 'Enter description',
                 validator: (value) {
                   value?.trim();
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
+                  if (value == null || value.trim().isEmpty) {
                     return 'description cannot tbe empty';
                   }
                   return null;
@@ -78,7 +69,7 @@ class _AddTaskState extends State<AddTask> {
               SizedBox(height: 16),
               Text('select Date',
                   style:
-                  titleMeduimStyle?.copyWith(fontWeight: FontWeight.w400)),
+                      titleMeduimStyle?.copyWith(fontWeight: FontWeight.w400)),
               SizedBox(height: 9),
               InkWell(
                   onTap: () async {
@@ -115,22 +106,18 @@ class _AddTaskState extends State<AddTask> {
       date: selectedDate,
     );
     FirebaseFunctions.addTaskToFireBase(task)
-        .timeout(Duration(microseconds: 100),
-        onTimeout: ()
-        {
-          Navigator.of(context).pop();
-          Provider.of<TaskProvider>(context, listen: false).getTasks();
-          Fluttertoast.showToast(
-              msg: "TASK ADDED SUCCESSFULLY",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 5,
-              backgroundColor: AppTheme.green,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        })
-        .catchError((error) {
+        .timeout(Duration(microseconds: 100), onTimeout: () {
+      Navigator.of(context).pop();
+      Provider.of<TaskProvider>(context, listen: false).getTasks();
+      Fluttertoast.showToast(
+          msg: "TASK ADDED SUCCESSFULLY",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 5,
+          backgroundColor: AppTheme.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }).catchError((error) {
       Fluttertoast.showToast(
           msg: "ERROR HAPPENED",
           toastLength: Toast.LENGTH_SHORT,
@@ -138,8 +125,7 @@ class _AddTaskState extends State<AddTask> {
           timeInSecForIosWeb: 5,
           backgroundColor: AppTheme.red,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
     });
   }
 }

@@ -1,18 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextFormField extends StatelessWidget{
+class CustomTextFormField extends StatefulWidget {
+  CustomTextFormField(
+      {required this.controller,
+        required this.hintText,
+        this.validator,
+        this.isPassword=false
+  });
   TextEditingController controller;
   String hintText;
   String? Function(String?)? validator;
-  CustomTextFormField({required this.controller,required this.hintText,this.validator});
+  bool isPassword;
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool isObsecure=widget.isPassword;
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return TextFormField(
-       controller: controller,
-      decoration: InputDecoration(hintText: hintText),
-      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      controller: widget.controller,
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                onPressed: () {
+                  isObsecure= !isObsecure;
+                  setState(() {
+
+                  });
+                },
+                icon: Icon(Icons.visibility_off_outlined),
+              )
+            : null,
+      ),
+      validator: widget.validator,
+      obscureText: isObsecure,
     );
   }
 }
